@@ -2,14 +2,16 @@
 	import { getContext } from 'svelte';
 	import { game_attach, type GameState } from './game';
 	import type { Writable } from 'svelte/store';
-	export let cell: import('./game').Cell;
-
-	let visual_value: number | string = '';
+	export let x: number;
+	export let y: number;
 
 	const game_store = getContext<Writable<GameState>>('game');
 
+	const cell = $game_store.board[x][y];
+
 	const game = game_attach(game_store);
 
+	let visual_value: number | string = '';
 	$: {
 		if (cell.revealed) {
 			if (cell.value === -1) {

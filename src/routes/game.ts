@@ -79,7 +79,7 @@ export const game_attach = (game_store: Writable<GameState>) => ({
             const width = game.width;
 
             for (let x = 0; x < height; x++) {
-                board[x] = [];
+                board[x] = Array(width);
                 for (let y = 0; y < width; y++) {
                     board[x][y] = { value: 0, revealed: false, flagged: false, x, y };
                 }
@@ -203,7 +203,7 @@ export const game_attach = (game_store: Writable<GameState>) => ({
     },
     setup_subscription() {
         game_store.subscribe((game) => {
-            if (game.game_state === 'none') return;
+            if (game.game_state === 'none') return game;
 
             if (game.game_state === 'lost' || game.game_state === 'won') {
                 // reveal everything

@@ -34,6 +34,11 @@
 			<h1 class="pt-8 text-4xl text-white">Minesweeper</h1>
 			<caption class="pt-1 text-gray-400">Click to reveal, right-click to flag</caption>
 			<caption class="text-gray-400">Press space to reset</caption>
+			{#if $game_store.game_state === 'won'}
+				<caption class="text-green-400 text-2xl pt-4">You won!</caption>
+			{:else if $game_store.game_state === 'lost'}
+				<caption class="text-red-400 text-2xl pt-4">You lost!</caption>
+			{/if}
 		</div>
 		<div class="flex flex-col gap-4 pt-8">
 			<div class="flex items-baseline gap-4">

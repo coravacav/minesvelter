@@ -10,13 +10,12 @@ export type GameState = {
     percentage: number;
 };
 
-function should_check(board: Cell[][], x: number, y: number, false_for_zero?: boolean) {
+function should_check(board: Cell[][], x: number, y: number) {
     const v = board[x]?.[y];
     if (!v) return false;
     if (v.value === -1) return false;
     if (v.revealed) return false;
     if (v.flagged) return false;
-    if (false_for_zero && v.value === 0) return false;
     return true;
 }
 
@@ -44,14 +43,14 @@ function reveal_impl(board: Cell[][], x: number, y: number) {
     board[x][y].revealed = true;
 
     if (board[x][y].value === 0) {
-        if (should_check(board, x - 1, y - 1, true)) reveal_impl(board, x - 1, y - 1);
+        if (should_check(board, x - 1, y - 1)) reveal_impl(board, x - 1, y - 1);
         if (should_check(board, x - 1, y)) reveal_impl(board, x - 1, y);
-        if (should_check(board, x - 1, y + 1, true)) reveal_impl(board, x - 1, y + 1);
+        if (should_check(board, x - 1, y + 1)) reveal_impl(board, x - 1, y + 1);
         if (should_check(board, x, y - 1)) reveal_impl(board, x, y - 1);
         if (should_check(board, x, y + 1)) reveal_impl(board, x, y + 1);
-        if (should_check(board, x + 1, y - 1, true)) reveal_impl(board, x + 1, y - 1);
+        if (should_check(board, x + 1, y - 1)) reveal_impl(board, x + 1, y - 1);
         if (should_check(board, x + 1, y)) reveal_impl(board, x + 1, y);
-        if (should_check(board, x + 1, y + 1, true)) reveal_impl(board, x + 1, y + 1);
+        if (should_check(board, x + 1, y + 1)) reveal_impl(board, x + 1, y + 1);
     }
 }
 
@@ -195,9 +194,6 @@ export const game_attach = (game_store: Writable<GameState>) => ({
                 old_percentage = game.percentage;
                 return impl_populate_board_with_mines(game);
             }
-
-            if (game.game_state === 'none') return game;
-            console.log('test', game.game_state);
 
             if (game.game_state === 'lost' || game.game_state === 'won') {
                 // reveal everything

@@ -24,13 +24,14 @@
 </script>
 
 <button
-	class="text-xl leading-[0] text-white"
+	class="text-xl leading-[0] text-white transition-colors"
 	on:click={() => game.reveal(cell)}
 	on:contextmenu={(e) => {
 		game.flag(cell);
 		e.preventDefault();
 	}}
     class:bg-slate-900={!cell.revealed && $game_store.game_state === 'none'}
+    class:hover:bg-slate-950={!cell.revealed && $game_store.game_state === 'none'}
 	class:bg-slate-600={cell.revealed && $game_store.game_state !== 'won'}
 	class:bg-red-700={$game_store.game_state === 'lost'}
 	class:bg-opacity-50={$game_store.game_state === 'lost'}

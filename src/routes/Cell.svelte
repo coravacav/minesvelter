@@ -20,8 +20,11 @@
 <button
 	class="bg-red-500 leading-[0]"
 	on:click={() => game.reveal(cell)}
-	on:contextmenu={() => game.flag(cell)}
+	on:contextmenu={(e) => {
+		game.flag(cell);
+		e.preventDefault();
+	}}
 	class:bg-red-600={!cell.revealed}
 >
-		{visual_value}
+	{visual_value}
 </button>

@@ -35,9 +35,9 @@
 			<caption class="pt-1 text-gray-400">Click to reveal, right-click to flag</caption>
 			<caption class="text-gray-400">Press space to reset</caption>
 			{#if $game_store.game_state === 'won'}
-				<caption class="text-green-400 text-2xl pt-4">You won!</caption>
+				<caption class="pt-4 text-2xl text-green-400">You won!</caption>
 			{:else if $game_store.game_state === 'lost'}
-				<caption class="text-red-400 text-2xl pt-4">You lost!</caption>
+				<caption class="pt-4 text-2xl text-red-400">You lost!</caption>
 			{/if}
 		</div>
 		<div class="flex flex-col gap-4 pt-8">
@@ -65,7 +65,10 @@
 	<div
 		style:grid-template-columns="repeat({$game_store.width}, 1fr)"
 		style:grid-template-rows="repeat({$game_store.height}, 1fr)"
-		class="mx-auto grid h-full w-full gap-1 p-8"
+		class="mx-auto grid h-full w-full p-8"
+		on:contextmenu={(e) => {
+			e.preventDefault();
+		}}
 	>
 		{#key $game_store.board}
 			{#each $game_store.board as row}

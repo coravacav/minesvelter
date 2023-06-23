@@ -32,7 +32,7 @@ function has_won(board: Cell[][]) {
         }
     }
 
-    if (unrevealed_cells) return false;
+    if (unflagged_mines) return false;
 
     return true;
 }
@@ -161,6 +161,8 @@ export const game_attach = (game_store: Writable<GameState>) => ({
                         if (should_check(board, x + 1, y + 1)) reveal_impl(board, x + 1, y + 1);
                     }
                 }
+
+                if (has_won(board)) return { ...game, game_state: 'won' };
 
                 return game;
             }

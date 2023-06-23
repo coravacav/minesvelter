@@ -24,7 +24,7 @@
 </script>
 
 <button
-	class="text-xl leading-[0] text-white transition-colors"
+	class="text-xl leading-[0] text-white transition-colors border-slate-700 border-2"
 	on:click={() => game.reveal(cell)}
 	on:contextmenu={(e) => {
 		game.flag(cell);

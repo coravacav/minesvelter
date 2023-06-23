@@ -9,24 +9,20 @@
 		height: 10,
 		board: [[]],
 		game_state: 'none',
+		percentage: 0.1,
 	});
 	setContext('game', game_store);
-
-	const percentage = writable(0.1);
 
 	const game = game_attach(game_store);
 	game.setup_subscription();
 
-	game.create_board();
-	game.populate_board_with_mines($percentage);
+	game.populate_board_with_mines();
 </script>
 
 <svelte:window
 	on:keydown={(e) => {
 		if (e.key === ' ') {
-			game.create_board();
-			game.populate_board_with_mines($percentage);
-			game.reset_board();
+			game.populate_board_with_mines();
 		}
 	}}
 />
@@ -44,18 +40,11 @@
 				<h3 class="text-3xl text-white">Options</h3>
 				<caption class="whitespace-nowrap pt-1 text-gray-400">Changing any resets the game</caption>
 			</div>
-			<form
-				class="grid h-min grid-cols-[min-content,1fr] items-center gap-4 px-4 text-white"
-				on:input={() => {
-					game.create_board();
-					game.populate_board_with_mines($percentage);
-					game.reset_board();
-				}}
-			>
+			<div class="grid h-min grid-cols-[min-content,1fr] items-center gap-4 px-4 text-white">
 				<label for="width">Width:</label>
-				<input id="width" type="range" min="20" max="80" bind:value={$game_store.width} />
+				<input id="width" type="range" min="10" max="50" bind:value={$game_store.width} />
 				<label for="height">Height:</label>
-				<input id="height" type="range" min="10" max="45" bind:value={$game_store.height} />
+				<input id="height" type="range" min="5" max="25" bind:value={$game_store.height} />
 				<label for="difficulty">Difficulty:</label>
 				<input
 					id="difficulty"
@@ -63,9 +52,9 @@
 					min="0.05"
 					max="0.3"
 					step="0.01"
-					bind:value={$percentage}
+					bind:value={$game_store.percentage}
 				/>
-			</form>
+			</div>
 		</div>
 	</div>
 	<div
@@ -76,7 +65,7 @@
 		{#key $game_store.board}
 			{#each $game_store.board as row}
 				{#each row as cell}
-					<Cell x={cell.x} y={cell.y} />
+					<Cell {cell} />
 				{/each}
 			{/each}
 		{/key}

@@ -18,13 +18,16 @@
 </script>
 
 <button
-	class="bg-red-500 leading-[0]"
+	class="bg-slate-900 leading-[0] text-xl text-white"
 	on:click={() => game.reveal(cell)}
 	on:contextmenu={(e) => {
 		game.flag(cell);
 		e.preventDefault();
 	}}
-	class:bg-red-600={!cell.revealed}
+	class:bg-slate-600={!cell.revealed && $game.game_state !== 'won'}
+    class:bg-red-700={$game.game_state === 'lost'}
+    class:opacity-50={$game.game_state === 'lost'}
+    class:bg-green-700={$game.game_state === 'won'}
 >
 	{visual_value}
 </button>

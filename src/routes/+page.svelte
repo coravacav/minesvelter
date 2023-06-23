@@ -17,9 +17,17 @@
 />
 
 <div class="flex h-full flex-col items-center overflow-hidden bg-slate-700">
-	<h1 class="pt-8 text-4xl text-white">Minesweeper</h1>
-	<caption class="pt-1 text-gray-400">Click to reveal, right-click to flag</caption>
-	<caption class="text-gray-400">Press space to reset</caption>
+	<div class="w-full px-16 flex justify-between">
+		<div class="h-full">
+			<h3 class="text-2xl my-auto">Game state: {$game.game_state}</h3>
+		</div>
+		<div class="flex flex-col">
+			<h1 class="pt-8 text-4xl text-white">Minesweeper</h1>
+			<caption class="pt-1 text-gray-400">Click to reveal, right-click to flag</caption>
+			<caption class="text-gray-400">Press space to reset</caption>
+		</div>
+		<div />
+	</div>
 	<div
 		style:grid-template-columns="repeat({$game.width}, 1fr)"
 		style:grid-template-rows="repeat({$game.height}, 1fr)"

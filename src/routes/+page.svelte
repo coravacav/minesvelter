@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { game_attach } from './game';
+	import { game_attach } from 'src/lib/game';
 	import Cell from './Cell.svelte';
 	import { setContext } from 'svelte';
 	import { writable } from 'svelte/store';

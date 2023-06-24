@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
-	import { game_attach, type Cell, type GameState } from './game';
+	import { game_attach, type Cell, type GameState } from 'src/lib/game';
 	import type { Writable } from 'svelte/store';
 
 	const game_store = getContext<Writable<GameState>>('game');

@@ -10,10 +10,12 @@ export type GameState = {
     percentage: number;
 };
 
+const MINE = -1;
+
 function should_check(board: Cell[][], x: number, y: number) {
     const v = board[x]?.[y];
     if (!v) return false;
-    if (v.value === -1) return false;
+    if (v.value === MINE) return false;
     if (v.revealed) return false;
     if (v.flagged) return false;
     return true;
@@ -27,8 +29,8 @@ function has_won(board: Cell[][]) {
     for (const row of board) {
         for (const cell of row) {
             if (unflagged_mines && unrevealed_cells) return false;
-            if (cell.value === -1 && !cell.flagged) unflagged_mines = true;
-            if (cell.value !== -1 && !cell.revealed) unrevealed_cells = true;
+            if (cell.value === MINE && !cell.flagged) unflagged_mines = true;
+            if (cell.value !== MINE && !cell.revealed) unrevealed_cells = true;
         }
     }
 
@@ -66,7 +68,7 @@ function impl_populate_board_with_mines(game: GameState) {
         board[x] = [];
         for (let y = 0; y < width; y++) {
             board[x][y] = {
-                value: Math.random() < percentage ? -1 : 0,
+                value: Math.random() < percentage ? MINE : 0,
                 revealed: false,
                 flagged: false,
                 x,
@@ -80,16 +82,16 @@ function impl_populate_board_with_mines(game: GameState) {
         for (let y = 0; y < width; y++) {
             let board_value = board[x][y].value;
 
-            if (board_value === -1) continue;
+            if (board_value === MINE) continue;
 
-            if (board[x - 1]?.[y - 1]?.value === -1) board_value++;
-            if (board[x - 1]?.[y]?.value === -1) board_value++;
-            if (board[x - 1]?.[y + 1]?.value === -1) board_value++;
-            if (board[x]?.[y - 1]?.value === -1) board_value++;
-            if (board[x]?.[y + 1]?.value === -1) board_value++;
-            if (board[x + 1]?.[y - 1]?.value === -1) board_value++;
-            if (board[x + 1]?.[y]?.value === -1) board_value++;
-            if (board[x + 1]?.[y + 1]?.value === -1) board_value++;
+            if (board[x - 1]?.[y - 1]?.value === MINE) board_value++;
+            if (board[x - 1]?.[y]?.value === MINE) board_value++;
+            if (board[x - 1]?.[y + 1]?.value === MINE) board_value++;
+            if (board[x]?.[y - 1]?.value === MINE) board_value++;
+            if (board[x]?.[y + 1]?.value === MINE) board_value++;
+            if (board[x + 1]?.[y - 1]?.value === MINE) board_value++;
+            if (board[x + 1]?.[y]?.value === MINE) board_value++;
+            if (board[x + 1]?.[y + 1]?.value === MINE) board_value++;
 
             board[x][y].value = board_value;
         }
@@ -145,7 +147,7 @@ export const game_attach = (game_store: Writable<GameState>) => ({
                     ]) {
                         if (!cell) continue;
                         if (cell.flagged) flags++;
-                        else if (cell.value === -1) hit_a_mine = true;
+                        else if (cell.value === MINE) hit_a_mine = true;
                     }
 
                     if (flags === board[x][y].value) {
@@ -169,7 +171,7 @@ export const game_attach = (game_store: Writable<GameState>) => ({
 
             if (board[x][y].flagged) return game;
 
-            if (board[x][y].value === -1) {
+            if (board[x][y].value === MINE) {
                 return { ...game, game_state: 'lost' };
             }
 
